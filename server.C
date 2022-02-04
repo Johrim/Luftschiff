@@ -17,7 +17,7 @@
 #include <netinet/in.h> //contains constants and structures needed for internet domain addresses
 
 #include "SIMPLESOCKET.H"
-#include <pigpio.h>
+//#include <pigpio.h>
 
 class MyServer : public TCPserver{
 public:
@@ -30,23 +30,28 @@ protected:
 };
 int main(){
 	srand(time(0));
-	TCPserver srv(2022,25);
+	Myserver srv(2022,25);
+	/*
 	if (gpioInitialise()<0){
 	        return 1;
 	    }
+	/*
 	gpioSetMode(6, PI_OUTPUT);
 	gpioSetMode(13,PI_ALT0);
 	gpioSetPWMrange(13, 255);
 	gpioPWM(13, 25);
 	srv.run();
+	*/
 }
 
 string MyServer::myResponse(string inputStr){
 	string response;
 
 	if(inputStr.compare("w")==0){
+		/*
 		gpioWrite(6, 1);
 		gpioPWM(13, 25);
+		*/
 		sleep(4);
 		return string("w");
 	}
