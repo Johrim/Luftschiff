@@ -48,6 +48,7 @@ int main(){
 
 string MyServer::myResponse(string inputStr){
 	string response;
+	string leer;
 
 	if(inputStr.compare("w")==0){
 
@@ -59,7 +60,7 @@ string MyServer::myResponse(string inputStr){
 	}else{
 		return string("nicht w");
 	}
-	if(inputStr.compare("")==0 && x< 4){
+	if(inputStr.compare(leer)==0 && x< 4){
 		x++;
 	}
 	if(x >= 4){
