@@ -33,7 +33,7 @@ protected:
 int main(){
 	srand(time(0));
 	MyServer srv(2022,25);
-
+	gpioTerminate();
 	if (gpioInitialise()<0){
 	        return 1;
 	    }
