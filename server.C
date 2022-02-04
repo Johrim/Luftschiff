@@ -29,7 +29,7 @@ protected:
 	string myResponse(string inputStr);
 
 };
-int x =0;
+
 int main(){
 	srand(time(0));
 	MyServer srv(2022,25);
@@ -50,7 +50,7 @@ string MyServer::myResponse(string inputStr){
 	string response;
 	string leer;
 
-	if(inputStr.compare("w")==0){
+	if(inputStr.compare("1234w")==0){
 
 		gpioWrite(6, 1);
 		gpioPWM(13, 25);
@@ -58,14 +58,9 @@ string MyServer::myResponse(string inputStr){
 		sleep(4);
 		return string("w ok");
 	}else{
-		return string("nicht w");
+		return string("client down");
 	}
-	if(inputStr.compare(leer)==0 && x< 4){
-		x++;
-	}
-	if(x >= 4){
-		return("Client down");
-	}
+
 	return response;
 
 
