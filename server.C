@@ -53,7 +53,9 @@ string MyServer::myResponse(string inputStr){
 		gpioPWM(13, 25);
 
 		sleep(4);
-		return string("w");
+		return string("w ok");
+	}else{
+		return string("nicht w");
 	}
 
 	return response;
