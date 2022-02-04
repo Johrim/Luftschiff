@@ -59,6 +59,7 @@ string MyServer::myResponse(string inputStr){
 		return string("w ok");
 	}else{
 		return string("client down");
+		gpioTerminate();
 	}
 
 	return response;
