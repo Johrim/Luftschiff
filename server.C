@@ -63,7 +63,7 @@ string MyServer::myResponse(string inputStr){
 		x++;
 	}
 	if(x >= 4){
-		std::cout<<"Client down";
+		return("Client down");
 	}
 	return response;
 
