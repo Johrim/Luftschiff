@@ -42,8 +42,8 @@ int main(){
 	gpioSetMode(13,PI_ALT0);
 	gpioSetPWMrange(13, 255);
 	gpioPWM(13, 25);
-	gpioTerminate();
 	srv.run();
+	gpioTerminate();
 
 }
 
@@ -56,11 +56,11 @@ string MyServer::myResponse(string inputStr){
 		gpioWrite(6, 1);
 		gpioPWM(13, 25);
 
-		sleep(4);
+		sleep(2);
 		return string("w ok");
 	}else{
 		return string("client down");
-		gpioTerminate();
+		//gpioTerminate();
 	}
 
 	return response;
