@@ -30,7 +30,7 @@ protected:
 };
 int main(){
 	srand(time(0));
-	Myserver srv(2022,25);
+	MyServer srv(2022,25);
 
 	if (gpioInitialise()<0){
 	        return 1;
