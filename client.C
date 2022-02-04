@@ -8,7 +8,7 @@
 #include <string>
 #include <iostream>
 #include <unistd.h> //contains various constants
-
+#include <stdlib.h>
 #include <ncurses.h>
 
 #include "SIMPLESOCKET.H"
@@ -16,7 +16,7 @@
 using namespace std;
 
 int main() {
-	srand(time(nullptr));
+	srand(time(0));
 	TCPclient c;
 	string host = "";
 	string msg,ch;
@@ -60,7 +60,7 @@ int main() {
 		//cout << "client sends:" << msg << endl;
 		c.sendData(msg = ch);
 		msg = c.receive(32);
-		printw("\ngot response: %s",ch.c_str());
+		printw("\ngot response: %s",msg.c_str());
 		//cout << "got response:" << msg << endl;
 		sleep(1);
 
