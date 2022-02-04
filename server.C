@@ -18,6 +18,7 @@
 
 #include "SIMPLESOCKET.H"
 #include <pigpio.h>
+#include <iostream>
 
 class MyServer : public TCPserver{
 public:
@@ -28,6 +29,7 @@ protected:
 	string myResponse(string inputStr);
 
 };
+int x =0;
 int main(){
 	srand(time(0));
 	MyServer srv(2022,25);
@@ -57,7 +59,12 @@ string MyServer::myResponse(string inputStr){
 	}else{
 		return string("nicht w");
 	}
-
+	if(inputStr.compare("")==0 && x< 4){
+		x++;
+	}
+	if(x >= 4){
+		std::cout<<"Client down";
+	}
 	return response;
 
 
