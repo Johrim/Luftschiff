@@ -41,7 +41,6 @@ int main(){
 	gpioSetMode(6, PI_OUTPUT);
 	gpioSetMode(13,PI_ALT0);
 	gpioSetPWMrange(13, 255);
-	gpioPWM(13, 25);
 	srv.run();
 	gpioTerminate();
 
