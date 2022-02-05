@@ -27,12 +27,15 @@ public:
 
 protected:
 	string myResponse(string inputStr);
+	int power = 0;
+	char lastCommand;
 
 };
-
+using namespace std;
 int main(){
-	srand(time(0));
+	srand(time(nullptr));
 	MyServer srv(2022,25);
+
 	gpioTerminate();
 	if (gpioInitialise()<0){
 	        return 1;
@@ -41,6 +44,7 @@ int main(){
 	gpioSetMode(6, PI_OUTPUT);
 	gpioSetMode(13,PI_ALT0);
 	gpioSetPWMrange(13, 255);
+
 	srv.run();
 	gpioTerminate();
 
@@ -48,21 +52,40 @@ int main(){
 
 string MyServer::myResponse(string inputStr){
 	string response;
-	string leer;
 
-	if(inputStr.compare("1234w")==0){
+	if(inputStr.compare("w")==0){
+		if(lastCommand == 'w'){
+			if(power < 10){
+				power++;
+			}
+		}else{
+			power = 1;
+			lastCommand = 'w';
+		}
+		cout<<"last: "<<lastCommand<<"\t power: "<<power<<endl;
 
 		gpioWrite(6, 1);
-		gpioPWM(13, 25);
+		gpioPWM(13, 5*power);
 
-		sleep(2);
-		return string("w ok");
+		return string("vorwärts");
+	}else if(inputStr.compare("s")==0){
+		if(lastCommand == 's'){
+			if(power < 10){
+				power++;
+			}
+			}else{
+				power = 1;
+				lastCommand = 's';
+			}
+			cout<<"last: "<<lastCommand<<"\t power: "<<power<<endl;
+			gpioWrite(6, 0);
+			gpioPWM(13, 5*power);
+				return string("bremsen");
 	}else{
-		return string("client down");
+		return string("unknown command");
 		//gpioTerminate();
 	}
-
-	return response;
+	return response;return string("vorwärts");
 
 
 }
