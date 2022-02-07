@@ -55,22 +55,6 @@ string MyServer::myResponse(string inputStr){
 	string response;
 
 	if(inputStr.compare("w")==0){
-		/*
-		if(lastCommand == 'w'){
-			if(power < 10){
-				power++;
-			}
-		}else{
-			power = 1;
-			lastCommand = 'w';
-		}
-		cout<<"last: "<<lastCommand<<"\t power: "<<power<<endl;
-
-		gpioWrite(6, 1);
-		gpioPWM(13, 5*power);
-
-		return string("vorwärts");
-		*/
 		if(power < maxpower){
 			power=power+5;
 			gpioWrite(6, 1);
@@ -78,20 +62,6 @@ string MyServer::myResponse(string inputStr){
 		}
 		return string("vorwärts");
 	}else if(inputStr.compare("s")==0){
-		/*
-		if(lastCommand == 's'){
-			if(power < 10){
-				power++;
-			}
-			}else{
-				power = 1;
-				lastCommand = 's';
-			}
-			cout<<"last: "<<lastCommand<<"\t power: "<<power<<endl;
-			gpioWrite(6, 0);
-			gpioPWM(13, 5*power);
-				return string("bremsen");
-				*/
 		if(power > 0){
 			power=power-5;
 			gpioWrite(6, 1);
@@ -99,8 +69,8 @@ string MyServer::myResponse(string inputStr){
 		}
 		return string("bremsen");
 	}else{
-		return string("unknown command");
-		//gpioTerminate();
+		//return string("unknown command");
+		gpioTerminate();
 	}
 	return response;
 
