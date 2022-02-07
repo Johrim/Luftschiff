@@ -29,7 +29,7 @@ protected:
 	string myResponse(string inputStr);
 	int power = 0;
 	char lastCommand;
-	int maxpower = 50;
+	int maxpower = 75;
 
 };
 using namespace std;
@@ -92,7 +92,7 @@ string MyServer::myResponse(string inputStr){
 			gpioPWM(13, 5*power);
 				return string("bremsen");
 				*/
-		if(power >= 0){
+		if(power > 0){
 			power=power-5;
 			gpioWrite(6, 1);
 			gpioPWM(13, power);
