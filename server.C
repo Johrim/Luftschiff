@@ -29,6 +29,7 @@ protected:
 	string myResponse(string inputStr);
 	int power = 0;
 	char lastCommand;
+	int maxpower = 50;
 
 };
 using namespace std;
@@ -54,6 +55,7 @@ string MyServer::myResponse(string inputStr){
 	string response;
 
 	if(inputStr.compare("w")==0){
+		/*
 		if(lastCommand == 'w'){
 			if(power < 10){
 				power++;
@@ -68,7 +70,15 @@ string MyServer::myResponse(string inputStr){
 		gpioPWM(13, 5*power);
 
 		return string("vorwärts");
+		*/
+		if(power < maxpower){
+			power=power+5;
+			gpioWrite(6, 1);
+			gpioPWM(13, power);
+		}
+		return string("vorwärts");
 	}else if(inputStr.compare("s")==0){
+		/*
 		if(lastCommand == 's'){
 			if(power < 10){
 				power++;
@@ -81,11 +91,18 @@ string MyServer::myResponse(string inputStr){
 			gpioWrite(6, 0);
 			gpioPWM(13, 5*power);
 				return string("bremsen");
+				*/
+		if(power >= 0){
+			power=power-5;
+			gpioWrite(6, 1);
+			gpioPWM(13, power);
+		}
+		return string("bremsen");
 	}else{
 		return string("unknown command");
 		//gpioTerminate();
 	}
-	return response;return string("vorwärts");
+	return response;
 
 
 }
