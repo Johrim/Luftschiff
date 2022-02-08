@@ -72,9 +72,8 @@ string MyServer::myResponse(string inputStr){
 		return string("Verbindung verloren");
 	}else if(inputStr.compare("stopp")==0){
 		gpioPWM(13, 0);
-	}else{
-		return string("unknown command");
 	}
+	return string("unknown command");
 
 }
 
