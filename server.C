@@ -68,7 +68,7 @@ string MyServer::myResponse(string inputStr){
 		return string("bremsen");
 	}else if(inputStr.compare(0,10,"\0")==0){
 		gpioTerminate();
-		return string("Verbindung verloren");
+		return string("BYEBYE");
 	}else if(inputStr.compare("stopp")==0){
 		gpioPWM(13, 0);
 		power=0;
