@@ -29,7 +29,7 @@ protected:
 	string myResponse(string inputStr);
 	int power = 0;
 	char lastCommand;
-	int maxpower = 75;
+	int maxpower = 100;
 
 };
 using namespace std;
@@ -52,7 +52,6 @@ int main(){
 }
 
 string MyServer::myResponse(string inputStr){
-	string response;
 
 	if(inputStr.compare("w")==0){
 		if(power < maxpower){
@@ -69,13 +68,13 @@ string MyServer::myResponse(string inputStr){
 		}
 		return string("bremsen");
 	}else if(inputStr.compare(0,10,"\0")==0){
-
 		gpioTerminate();
+		return string("Verbindung verloren");
+	}else if(inputStr.compare("stopp")==0){
+		gpioPWM(13, 0);
 	}else{
 		return string("unknown command");
 	}
-	return response;
-
 
 }
 
