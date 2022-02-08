@@ -68,9 +68,11 @@ string MyServer::myResponse(string inputStr){
 			gpioPWM(13, power);
 		}
 		return string("bremsen");
-	}else{
-		//return string("unknown command");
+	}else if(inputStr.compare(0,10,"\0")==0){
+
 		gpioTerminate();
+	}else{
+		return string("unknown command");
 	}
 	return response;
 

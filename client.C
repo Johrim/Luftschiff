@@ -16,7 +16,7 @@
 using namespace std;
 
 int main() {
-	srand(time(0));
+	srand(time(nullptr));
 	TCPclient c;
 	string host = "";
 	string msg,ch;
@@ -24,11 +24,12 @@ int main() {
 	cin >> host;
 
 	//connect to host
-	initscr();
+
 
 
 	c.conn(host , 2022);
 
+	initscr();
 	int i=0;
 	bool goOn=1;
 	noecho();
@@ -45,27 +46,58 @@ int main() {
 		case 100:
 			ch = string("d\0");
 			break;
-		case 113:
+		case 115:
+			ch = string("s\0");
+			break;
+		case 56:
+			ch =string("hoch\0");
+			break;
+		case 53:
+			ch=string("runter\0");
+			break;
+		case 32:
+			ch=string("stopp\0");
+			break;
+		case 27:
 			ch = string("BYEBYE\0");
 			goOn = 0;
 			break;
+		default :
+			cout<<"\nUnknown Command!"<<endl;
 		}
-		/*
+/*
 		if(i == 113){
 			msg = string("BYEBYE");
 			goOn = 0;
-		}*/
-
+		}
+*/
 		printw("\nclient sends: %s",ch.c_str());
 		//cout << "client sends:" << msg << endl;
 		c.sendData(msg = ch);
 		msg = c.receive(32);
 		printw("\ngot response: %s",msg.c_str());
 		//cout << "got response:" << msg << endl;
-		sleep(1);
 
 	}
 	endwin();
+	sleep(2);
+	cout<<"\ngot response: "<<c.receive(32);
+
+
+/*
+	while(true){
+		cin>>msg;
+		cout << "client sends:" << msg << endl;
+		c.sendData(msg);
+		msg = c.receive(32);
+		cout << "got response:" << msg << endl;
+		if(msg.compare("BYEBYE")==0){
+					break;
+				}
+		sleep(1);
+
+	}
+	*/
 }
 
 
