@@ -28,7 +28,6 @@ public:
 protected:
 	string myResponse(string inputStr);
 	int power = 0;
-	char lastCommand;
 	int maxpower = 100;
 
 };
@@ -72,6 +71,8 @@ string MyServer::myResponse(string inputStr){
 		return string("Verbindung verloren");
 	}else if(inputStr.compare("stopp")==0){
 		gpioPWM(13, 0);
+		power=0;
+		return string("stopp");
 	}
 	return string("unknown command");
 
