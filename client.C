@@ -20,22 +20,27 @@ int main() {
 	TCPclient c;
 	string host = "";
 	string msg,ch;
-	cout <<"IP-Adresse:"<<endl;
-	cin >> host;
+
 
 	//connect to host
 
 
-
-	c.conn(host , 2022);
+	while(true){
+		cout <<"IP-Adresse:"<<endl;
+		cin >> host;
+		if(c.conn(host , 2022)==true){
+			break;
+		}
+	}
 
 	initscr();
 	int i=0;
 	bool goOn=1;
 	noecho();
 	while(goOn){ // send and receive data
-
+		cout<<"i vor\n";
 		i=getch();
+		cout<<"i nach\n";
 		switch (i){
 		case 119:
 			ch = string("w\0");
@@ -65,6 +70,7 @@ int main() {
 		default :
 			cout<<"\nUnknown Command!"<<endl;
 		}
+		cout<<"switch\n";
 /*
 		if(i == 113){
 			msg = string("BYEBYE");
