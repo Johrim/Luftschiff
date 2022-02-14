@@ -50,6 +50,7 @@ int main(){
 
 }
 
+
 string MyServer::myResponse(string inputStr){
 
 	if(inputStr.compare("w")==0){
