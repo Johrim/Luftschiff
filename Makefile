@@ -11,6 +11,7 @@ client.o:	client.C
 
 server.o:	server.C
 	$(CC) -c $<  -std=c++11
+	
 
 SIMPLESOCKET.o:	SIMPLESOCKET.C
 	$(CC) -c $<  -std=c++11
@@ -22,11 +23,12 @@ main.o:	main.C
 
 
 main:	$(OBJS)
-	$(CC) -o $@ $^ -L/usr/lib/x86_64-linux-gnu -ldl -lstdc++  -std=c++11 -lpthread $(LIBS)
+	$(CC) -o $@ $^ -L/usr/lib/x86_64-linux-gnu -lpigpio -ldl -lstdc++  -std=c++11 -lpthread $(LIBS)
 
 
 server:	server.o
 	$(CC) -o server server.o  SIMPLESOCKET.o -L/usr/lib/x86_64-linux-gnu -lpigpio -ldl -lstdc++  -std=c++11
+	
 
 client:	client.o
 	$(CC) -o client client.o SIMPLESOCKET.o -L/usr/lib/x86_64-linux-gnu -lncurses -ldl -lstdc++  -std=c++11

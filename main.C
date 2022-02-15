@@ -1,25 +1,54 @@
-//============================================================================
-// Name        : INF3_Prak.cpp
-// Author      :
-// Version     :
-// Copyright   : Your copyright notice
-// Description : Hello World in C, Ansi-style
-//============================================================================
 
-#include <string>
 #include <iostream>
-
-#include <cstdio>      /* printf, NULL */
-#include <cstdlib>     /* srand, rand */
-#include <ctime>       /* time */
-
-#include <unistd.h>
+#include <pigpio.h>
 
 using namespace std;
 
 
 int main(){
-	srand(time(nullptr));
 
+	if(gpioInitialise()<0){
+		return 1;
+	}
+	int motor,richtung,geschwindigkeit;
+	gpioSetMode(5,PI_OUTPUT);
+	gpioSetMode(6,PI_OUTPUT);
+	gpioSetMode(15,PI_OUTPUT);
+	gpioSetMode(26,PI_OUTPUT);
+	gpioSetMode(13,PI_ALT0);
+	gpioSetMode(18,PI_ALT0);
+	gpioSetMode(19,PI_ALT5);
+	gpioSetPWMrange(13,255);
+	gpioSetPWMrange(18,255);
+	gpioSetPWMrange(19,255);
+	gpioWrite(5,1);
+
+	while(true){
+		while(0>motor>3 || 0>richtung>1 || 0>geschwindigkeit>255){
+			cout<<"Motor: ";
+			cin >>motor;
+			cout<<"Richtung: ";
+			cin>>richtung;
+			cout<<"Geschwindigkeit: ";
+			cin>>geschwindigkeit;
+		}
+
+		if(motor==1){
+			gpioWrite(6,richtung);
+			gpioPWM(13,geschwindigkeit);
+		}
+		if(motor==2){
+			gpioWrite(26,richtung);
+			gpioPWM(19,geschwindigkeit);
+		}
+		if(motor==3){
+			gpioWrite(15,richtung);
+			gpioPWM(18,geschwindigkeit);
+		}
+		if(motor==0){
+			break;
+		}
+	}
+	gpioTerminate();
     return 0;
 }
