@@ -23,7 +23,9 @@ int main(){
 	gpioWrite(5,1);
 
 	while(true){
+		cout<<"while1"<<endl;
 		while((0>motor>3) || (0>richtung>1) || (0>geschwindigkeit>255)){
+			cout<<"while2"<<endl;
 			cout<<"Motor: ";
 			cin >>motor;
 			cout<<"Richtung: ";
