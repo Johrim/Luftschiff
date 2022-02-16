@@ -9,7 +9,7 @@ int main(){
 		cout<<"Initialisierung fehlgeschlagen!"<<endl;
 		return 1;
 	}
-	int motor=-1,richtung,geschwindigkeit;
+	int motor,richtung,geschwindigkeit;
 	gpioSetMode(5,PI_OUTPUT);
 	gpioSetMode(6,PI_OUTPUT);
 	gpioSetMode(15,PI_OUTPUT);
@@ -23,7 +23,7 @@ int main(){
 	gpioWrite(5,1);
 
 	while(true){
-		while(0>motor>3 || 0>richtung>1 || 0>geschwindigkeit>255){
+		while(0>motor>3 && 0>richtung>1 && 0>geschwindigkeit>255){
 			cout<<"Motor: ";
 			cin >>motor;
 			cout<<"Richtung: ";
