@@ -23,15 +23,35 @@ int main(){
 	gpioWrite(5,1);
 
 	while(true){
-		cout<<"while1"<<endl;
-		while((0>motor>3) || (0>richtung>1) || (0>geschwindigkeit>255)){
+
+		do{
 			cout<<"Motor: ";
 			cin >>motor;
+			if(motor < 0 || motor > 3){
+				cout<<"Falscher Input!";
+			}else{
+				break;
+			}
+		}while(true);
+		do{
 			cout<<"Richtung: ";
 			cin>>richtung;
+			if(richtung < 0 || richtung > 1){
+				cout<<"Falscher Input!";
+			}else{
+				break;
+			}
+		}while(true);
+
+		do{
 			cout<<"Geschwindigkeit: ";
 			cin>>geschwindigkeit;
-		}
+			if(geschwindigkeit < 0 || geschwindigkeit > 255){
+				cout<<"Falscher Input!";
+			}else{
+				break;
+			}
+		}while(true);
 
 		if(motor==1){
 			gpioWrite(6,richtung);
