@@ -6,6 +6,7 @@ using namespace std;
 int main(){
 
 	if(gpioInitialise()<0){
+		cout<<"Initialisierung fehlgeschlagen!"<<endl;
 		return 1;
 	}
 	int motor,richtung,geschwindigkeit;
