@@ -21,6 +21,9 @@ int main(){
 	gpioSetPWMrange(18,255);
 	gpioSetPWMrange(19,255);
 	gpioWrite(5,1);
+	gpioPWM(13,0);
+	gpioPWM(18,0);
+	gpioPWM(19,0);
 
 	while(true){
 
