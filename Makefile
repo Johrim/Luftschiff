@@ -1,8 +1,5 @@
 CC=g++
 
-CFLAGS=$(shell pkg-config --cflags opencv) 
-LIBS=$(shell pkg-config --libs opencv) 
-
 OBJS= main.o  SIMPLESOCKET.o
 DEMOTARGET=main server client
 
@@ -23,7 +20,7 @@ main.o:	main.C
 
 
 main:	$(OBJS)
-	$(CC) -o $@ $^ -L/usr/lib/x86_64-linux-gnu -lpigpio -ldl -lstdc++  -std=c++11 -lpthread $(LIBS)
+	$(CC) -o $@ $^ -L/usr/lib/x86_64-linux-gnu -lpigpio -ldl -lstdc++  -std=c++11
 
 
 server:	server.o
