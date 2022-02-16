@@ -9,7 +9,7 @@ int main(){
 		cout<<"Initialisierung fehlgeschlagen!"<<endl;
 		return 1;
 	}
-	int motor,richtung,geschwindigkeit;
+	int motor=-1,richtung,geschwindigkeit;
 	gpioSetMode(5,PI_OUTPUT);
 	gpioSetMode(6,PI_OUTPUT);
 	gpioSetMode(15,PI_OUTPUT);
