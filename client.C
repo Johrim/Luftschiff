@@ -38,9 +38,7 @@ int main() {
 	bool goOn=1;
 	noecho();
 	while(goOn){ // send and receive data
-		cout<<"i vor\n";
 		i=getch();
-		cout<<"i nach\n";
 		switch (i){
 		case 119:
 			ch = string("w\0");
@@ -70,7 +68,6 @@ int main() {
 		default :
 			cout<<"\nUnknown Command!"<<endl;
 		}
-		cout<<"switch\n";
 /*
 		if(i == 113){
 			msg = string("BYEBYE");
@@ -87,7 +84,6 @@ int main() {
 	}
 	endwin();
 	sleep(2);
-	cout<<"\ngot response: "<<c.receive(32);
 
 
 /*
