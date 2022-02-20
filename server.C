@@ -31,6 +31,7 @@ private:
 	int powerMotorEinzel= 0;
 	int maxpower = 100;
 	char lastCommand;
+	int con=0;
 
 };
 using namespace std;
@@ -65,8 +66,8 @@ int main(){
 
 
 string MyServer::myResponse(string inputStr){
-
-	if(inputStr.compare("w")==0){
+	if(inputStr.compare("run")!=0){
+		if(inputStr.compare("w")==0){
 		if(lastCommand !='w'){
 			lastCommand = 'w';
 			power=0;
@@ -79,68 +80,79 @@ string MyServer::myResponse(string inputStr){
 			gpioPWM(19, power);
 		}
 		return string("vorwärts");
-	}else if(inputStr.compare("s")==0){
-		if(lastCommand !='s'){
+		}else if(inputStr.compare("s")==0){
+			if(lastCommand !='s'){
 			lastCommand = 's';
-		}
-		if(power > 0){
-			power=power-5;
-			gpioPWM(13, power);
-			gpioPWM(19, power);
-		}
-		return string("bremsen");
-	}else if(inputStr.compare("a")==0){
-		if(lastCommand !='a'){
-			lastCommand = 'a';
+			}
+			if(power > 0){
+				power=power-5;
+				gpioPWM(13, power);
+				gpioPWM(19, power);
+			}
+			return string("bremsen");
+		}else if(inputStr.compare("a")==0){
+			if(lastCommand !='a'){
+				lastCommand = 'a';
+				power=0;
+				gpioWrite(6, 0);
+				gpioWrite(26, 1);
+			}
+			if(power < maxpower){
+				power=power+5;
+				gpioPWM(13, power);
+				gpioPWM(19, power);
+			}
+			return string("links");
+		}else if(inputStr.compare("d")==0){
+			if(lastCommand !='d'){
+				lastCommand = 'd';
+				power=0;
+				gpioWrite(6, 1);
+				gpioWrite(26, 0);
+			}
+			if(power < maxpower){
+				power=power+5;
+				gpioPWM(13, power);
+				gpioPWM(19, power);
+			}
+			return string("rechts");
+		}else if(inputStr.compare("hoch")==0){
+			if(powerMotorEinzel < maxpower){
+				powerMotorEinzel=powerMotorEinzel+5;
+				gpioWrite(15, 1);
+				gpioPWM(18, powerMotorEinzel);
+			}
+			return string("hoch");
+		}else if(inputStr.compare("runter")==0){
+			if(powerMotorEinzel > 0){
+				powerMotorEinzel=powerMotorEinzel-5;
+				gpioWrite(15, 0);
+				gpioPWM(18, powerMotorEinzel);
+			}
+			return string("runter");
+		}else if(inputStr.compare(0,10,"\0")==0){
+			gpioTerminate();
+			return string("BYEBYE");
+		}else if(inputStr.compare("stopp")==0){
 			power=0;
-			gpioWrite(6, 0);
-			gpioWrite(26, 1);
-		}
-		if(power < maxpower){
-			power=power+5;
+			powerMotorEinzel=0;
 			gpioPWM(13, power);
 			gpioPWM(19, power);
-		}
-		return string("links");
-	}else if(inputStr.compare("d")==0){
-		if(lastCommand !='d'){
-			lastCommand = 'd';
-			power=0;
-			gpioWrite(6, 1);
-			gpioWrite(26, 0);
-		}
-		if(power < maxpower){
-			power=power+5;
-			gpioPWM(13, power);
-			gpioPWM(19, power);
-		}
-		return string("rechts");
-	}else if(inputStr.compare("hoch")==0){
-		if(powerMotorEinzel < maxpower){
-			powerMotorEinzel=powerMotorEinzel+5;
-			gpioWrite(15, 1);
 			gpioPWM(18, powerMotorEinzel);
-		}
-		return string("hoch");
-	}else if(inputStr.compare("runter")==0){
-		if(powerMotorEinzel > 0){
-			powerMotorEinzel=powerMotorEinzel-5;
-			gpioWrite(15, 0);
-			gpioPWM(18, powerMotorEinzel);
-		}
-		return string("runter");
-	}else if(inputStr.compare(0,10,"\0")==0){
-		gpioTerminate();
-		return string("BYEBYE");
-	}else if(inputStr.compare("stopp")==0){
-		power=0;
-		powerMotorEinzel=0;
-		gpioPWM(13, power);
-		gpioPWM(19, power);
-		gpioPWM(18, powerMotorEinzel);
 
-		return string("stopp");
+			return string("stopp");
+		}
+		con++;
+
+		if(con ==4){
+			cout<<"Connection lost!\n";
+			gpioPWM(13, 0);
+			gpioPWM(19, 0);
+			gpioPWM(18, 0);
+		}
+		return string("noRun");
 	}
+
 	return string("unknown command");
 
 }

@@ -38,6 +38,12 @@ int main() {
 	bool goOn=1;
 	noecho();
 	while(goOn){ // send and receive data
+		sendData("run");
+		msg=receive(32);
+		cout<<"received: "<<msg<<"\n";
+		if(msg.compare("ok")!=0){
+			continue;
+		}
 		i=getch();
 		switch (i){
 		case 119:
