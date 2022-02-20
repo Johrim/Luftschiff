@@ -152,7 +152,9 @@ string MyServer::myResponse(string inputStr){
 		}
 		return string("noRun");
 	}
-
+	if(inputStr.compare("run")==0){
+		return string("ok");
+	}
 	return string("unknown command");
 
 }
