@@ -61,12 +61,14 @@ int main(){
 
 	srv.run();
 	gpioTerminate();
+	sleep(2);
 
 }
 
 
 string MyServer::myResponse(string inputStr){
 	if(inputStr.compare("run")!=0){
+		/*
 		if(inputStr.compare("w")==0){
 		if(lastCommand !='w'){
 			lastCommand = 'w';
@@ -142,17 +144,22 @@ string MyServer::myResponse(string inputStr){
 
 			return string("stopp");
 		}
+		*/
 		con++;
 
 		if(con ==4){
 			cout<<"Connection lost!\n";
+			sleep(4);
+			/*
 			gpioPWM(13, 0);
 			gpioPWM(19, 0);
 			gpioPWM(18, 0);
+			*/
 		}
 		return string("noRun");
 	}
 	if(inputStr.compare("run")==0){
+		con=0;
 		return string("ok");
 	}
 	return string("unknown command");
