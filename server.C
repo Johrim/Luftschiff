@@ -19,222 +19,78 @@
 #include "SIMPLESOCKET.H"
 #include <pigpio.h>
 #include <iostream>
+#include <thread>
+#include <fstream>
 
 class MyServer : public TCPserver{
 public:
 	MyServer(int portNmb, int maxSizeData) : TCPserver(portNmb,maxSizeData){
 	};
+	string myResponse(string inputStr);
+	void checkCon();
+
 
 private:
-	string myResponse(string inputStr);
+
+	void ansteuerung(string inputStr);
+	//void checkCon();
 	int power = 0;
 	int powerMotorEinzel= 0;
 	int maxpower = 100;
 	char lastCommand;
 	int con=0;
+	bool checkcon = false;
+	//string response;
 
 };
+
 using namespace std;
 int main(){
 	srand(time(nullptr));
 	MyServer srv(2022,25);
-
-	gpioTerminate();
-	if (gpioInitialise()<0){
-	        return 1;
-	    }
-
-	gpioSetMode(5,PI_OUTPUT); 	//Modus vom Dual Motor Driver
-	gpioSetMode(6,PI_OUTPUT); 	//Richtung Motor 1
-	gpioSetMode(15,PI_OUTPUT);	//Richtung Motor 3
-	gpioSetMode(26,PI_OUTPUT); 	//Richtung Motor 2
-	gpioSetMode(13,PI_ALT0); 	//Geschwindigkeit Motor 1
-	gpioSetMode(18,PI_ALT0); 	//Geschwindigkeit Motor 3
-	gpioSetMode(19,PI_ALT5);	//Geschwindigkeit Motor 2
-	gpioSetPWMrange(13,255);
-	gpioSetPWMrange(18,255);
-	gpioSetPWMrange(19,255);
-	gpioWrite(5,1);
-	gpioPWM(13,0);
-	gpioPWM(18,0);
-	gpioPWM(19,0);
-
+	thread check(&MyServer::checkCon,&srv);
+	//check.detach();
 	srv.run();
-	gpioTerminate();
+	check.join();
 	sleep(2);
 
 }
 
 
 string MyServer::myResponse(string inputStr){
-	if(inputStr.compare("run")!=0){
-		/*
-		if(inputStr.compare("w")==0){
-		if(lastCommand !='w'){
-			lastCommand = 'w';
-			power=0;
-		}
-		if(power < maxpower){
-			power=power+5;
-			gpioWrite(6, 1);
-			gpioWrite(26, 1);
-			gpioPWM(13, power);
-			gpioPWM(19, power);
-		}
-		return string("vorwärts");
-		}else if(inputStr.compare("s")==0){
-			if(lastCommand !='s'){
-			lastCommand = 's';
-			}
-			if(power > 0){
-				power=power-5;
-				gpioPWM(13, power);
-				gpioPWM(19, power);
-			}
-			return string("bremsen");
-		}else if(inputStr.compare("a")==0){
-			if(lastCommand !='a'){
-				lastCommand = 'a';
-				power=0;
-				gpioWrite(6, 0);
-				gpioWrite(26, 1);
-			}
-			if(power < maxpower){
-				power=power+5;
-				gpioPWM(13, power);
-				gpioPWM(19, power);
-			}
-			return string("links");
-		}else if(inputStr.compare("d")==0){
-			if(lastCommand !='d'){
-				lastCommand = 'd';
-				power=0;
-				gpioWrite(6, 1);
-				gpioWrite(26, 0);
-			}
-			if(power < maxpower){
-				power=power+5;
-				gpioPWM(13, power);
-				gpioPWM(19, power);
-			}
-			return string("rechts");
-		}else if(inputStr.compare("hoch")==0){
-			if(powerMotorEinzel < maxpower){
-				powerMotorEinzel=powerMotorEinzel+5;
-				gpioWrite(15, 1);
-				gpioPWM(18, powerMotorEinzel);
-			}
-			return string("hoch");
-		}else if(inputStr.compare("runter")==0){
-			if(powerMotorEinzel > 0){
-				powerMotorEinzel=powerMotorEinzel-5;
-				gpioWrite(15, 0);
-				gpioPWM(18, powerMotorEinzel);
-			}
-			return string("runter");
-		}else if(inputStr.compare(0,10,"\0")==0){
-			gpioTerminate();
-			return string("BYEBYE");
-		}else if(inputStr.compare("stopp")==0){
-			power=0;
-			powerMotorEinzel=0;
-			gpioPWM(13, power);
-			gpioPWM(19, power);
-			gpioPWM(18, powerMotorEinzel);
 
-			return string("stopp");
-		}
-		*/
-		con++;
-
-		if(con ==4){
-			cout<<"Connection lost!\n";
-			sleep(4);
-			/*
-			gpioPWM(13, 0);
-			gpioPWM(19, 0);
-			gpioPWM(18, 0);
-			*/
-		}
-		return string("noRun");
-	}
 	if(inputStr.compare("run")==0){
-		con=0;
-		return string("ok");
+		con=1;
+		return string("run");
 	}
-	return string("unknown command");
+	if(inputStr.compare("connected")==0){
+		checkcon=true;
+		return string("conOk");
+	}
 
-}
+	if(con==0){
+		cout<<"Verbindung verloren!\n";
+		return string("lost");
+	}
 
-/*
- * #include <unistd.h>
-#include <pigpio.h>
-#include <iostream>
-using namespace std;
-int main(){
-
-    if (gpioInitialise()<0){
-        return 1;
-    }
-    int x;
-    gpioSetMode(6, PI_OUTPUT);
-    gpioSetMode(5, PI_OUTPUT);
-    gpioSetMode(26, PI_OUTPUT);
-    gpioWrite(6, 1);
-    gpioWrite(5, 1);
-    gpioWrite(26, 1);
-    gpioSetMode(13,PI_ALT0);
-    gpioSetMode(19,PI_ALT5);
-    gpioSetPWMrange(13, 255);
-    gpioSetPWMrange(19, 255);
-
-    /*gpioPWM(13, 25);
-    gpioPWM(19, 25);
-    sleep(4);
-    gpioPWM(19, 0);
-    gpioPWM(13, 50);
-    gpioPWM(19, 50);
-    sleep(4);
-    gpioPWM(13, 75);
-    gpioPWM(19, 75);
-    sleep(4);
-
-    cin >>x;
-    while(x!=3){
-        if(x==1){
-        gpioPWM(13, 25);
-        sleep(4);
-        gpioPWM(13, 50);
-        sleep(4);
-        gpioPWM(13, 75);
-        sleep(4);
-        }
-        if(x==0){
-            gpioPWM(19, 25);
-            sleep(4);
-            gpioPWM(19, 50);
-            sleep(4);
-            gpioPWM(19, 75);
-            sleep(4);
-        }
-        if(x==2){
-            gpioPWM(13, 10);
-            gpioPWM(19, 25);
-            sleep(5);
-            gpioPWM(13, 25);
-            gpioPWM(19, 10);
-            sleep(5);
-        }
-        gpioPWM(19, 0);
-        gpioPWM(13, 0);
-        cout<<"in\n";
-        cin >>x;
-
-    }
-
-    gpioTerminate();
+	return string("unknown Command");
 
 
 }
-*/
+
+void MyServer::checkCon(){
+	while(true){
+		if(checkcon==true){
+			break;
+		}
+	}
+	while(checkcon){
+		con=0;
+		sleep(2);
+		if(con==0){
+			checkcon=false;
+			cout<<"Verbindung verloren!\n";
+		}
+	}
+}
 

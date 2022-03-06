@@ -10,102 +10,112 @@
 #include <unistd.h> //contains various constants
 #include <stdlib.h>
 #include <ncurses.h>
+#include <thread>
+#include <chrono>
 
 #include "SIMPLESOCKET.H"
+
+class MyClient : public TCPclient{
+public:
+	bool sendRun=true;
+	void checkCon();
+private:
+
+
+};
 
 using namespace std;
 
 int main() {
 	srand(time(nullptr));
-	TCPclient c;
+	//TCPclient c;
 	string host = "";
 	string msg,ch;
 
 
+
 	//connect to host
-
-
-	while(true){
+	MyClient c;
+	bool run=1;
+	while(run){
 		cout <<"IP-Adresse:"<<endl;
 		cin >> host;
 		if(c.conn(host , 2022)==true){
-			break;
+			while(run){
+				c.sendData("connected");
+				msg=c.receive(32);
+				cout<<"msg: "<<msg<<endl;
+				if(msg.compare("conOk")==0){
+					run=0;
+				}
+			}
 		}
 	}
 
 	initscr();
-	int i=0;
+	int i=0,x,y;
 	bool goOn=1;
 	noecho();
+	thread check(&MyClient::checkCon,&c);
 	while(goOn){ // send and receive data
-		c.sendData("run");
-		msg=c.receive(32);
-		cout<<"received: "<<msg<<"\n";
-		if(msg.compare("ok")!=0){
-			continue;
-		}
+
 		i=getch();
 		switch (i){
 		case 119:
-			ch = string("w\0");
+			msg = string("w\0");
 			break;
 		case 97:
-			ch = string("a\0");
+			msg = string("a\0");
 			break;
 		case 100:
-			ch = string("d\0");
+			msg = string("d\0");
 			break;
 		case 115:
-			ch = string("s\0");
+			msg = string("s\0");
 			break;
 		case 56:
-			ch =string("hoch\0");
+			msg =string("hoch\0");
 			break;
 		case 53:
-			ch=string("runter\0");
+			msg=string("runter\0");
 			break;
 		case 32:
-			ch=string("stopp\0");
+			msg=string("stopp\0");
 			break;
 		case 27:
-			ch = string("BYEBYE\0");
+			msg = string("BYEBYE\0");
 			goOn = 0;
 			break;
 		default :
 			cout<<"\nUnknown Command!"<<endl;
+			c.sendRun=false;
 		}
-/*
-		if(i == 113){
-			msg = string("BYEBYE");
-			goOn = 0;
-		}
-*/
-		printw("\nclient sends: %s",ch.c_str());
-		//cout << "client sends:" << msg << endl;
-		c.sendData(msg = ch);
-		msg = c.receive(32);
-		printw("\ngot response: %s",msg.c_str());
-		//cout << "got response:" << msg << endl;
 
+		getyx(stdscr,y,x);
+		mvprintw(y,0,"client sends: %s",msg.c_str());
+
+		c.sendData(msg);
+		msg = c.receive(32);
+		mvprintw(y,0,"got response: %s",msg.c_str());
 	}
+
 	endwin();
 	sleep(2);
 
-
-/*
-	while(true){
-		cin>>msg;
-		cout << "client sends:" << msg << endl;
-		c.sendData(msg);
-		msg = c.receive(32);
-		cout << "got response:" << msg << endl;
-		if(msg.compare("BYEBYE")==0){
-					break;
-				}
-		sleep(1);
-
-	}
-	*/
 }
 
-
+void MyClient::checkCon(){
+	string msg;
+	int x=0;
+		while(true){
+			if(x<6){
+				x++;
+				sendData("run");
+				msg=receive(32);
+				cout<<"sendRun: "<<sendRun<<endl;
+				if(msg.compare("run")==0){
+					this_thread::sleep_for(chrono::seconds(2));
+				}
+			}
+		}
+}
