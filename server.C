@@ -29,7 +29,7 @@ private:
 	string myResponse(string inputStr);
 	int power = 0;
 	int powerMotorEinzel= 0;
-	int maxpower = 100;
+	int maxpower = 200;
 	char lastCommand;
 
 };
@@ -129,9 +129,6 @@ string MyServer::myResponse(string inputStr){
 			gpioPWM(18, powerMotorEinzel);
 		}
 		return string("runter");
-	}else if(inputStr.compare(0,10,"\0")==0){
-		gpioTerminate();
-		return string("BYEBYE");
 	}else if(inputStr.compare("stopp")==0){
 		power=0;
 		powerMotorEinzel=0;
@@ -144,76 +141,4 @@ string MyServer::myResponse(string inputStr){
 	return string("unknown command");
 
 }
-
-/*
- * #include <unistd.h>
-#include <pigpio.h>
-#include <iostream>
-using namespace std;
-int main(){
-
-    if (gpioInitialise()<0){
-        return 1;
-    }
-    int x;
-    gpioSetMode(6, PI_OUTPUT);
-    gpioSetMode(5, PI_OUTPUT);
-    gpioSetMode(26, PI_OUTPUT);
-    gpioWrite(6, 1);
-    gpioWrite(5, 1);
-    gpioWrite(26, 1);
-    gpioSetMode(13,PI_ALT0);
-    gpioSetMode(19,PI_ALT5);
-    gpioSetPWMrange(13, 255);
-    gpioSetPWMrange(19, 255);
-
-    /*gpioPWM(13, 25);
-    gpioPWM(19, 25);
-    sleep(4);
-    gpioPWM(19, 0);
-    gpioPWM(13, 50);
-    gpioPWM(19, 50);
-    sleep(4);
-    gpioPWM(13, 75);
-    gpioPWM(19, 75);
-    sleep(4);
-
-    cin >>x;
-    while(x!=3){
-        if(x==1){
-        gpioPWM(13, 25);
-        sleep(4);
-        gpioPWM(13, 50);
-        sleep(4);
-        gpioPWM(13, 75);
-        sleep(4);
-        }
-        if(x==0){
-            gpioPWM(19, 25);
-            sleep(4);
-            gpioPWM(19, 50);
-            sleep(4);
-            gpioPWM(19, 75);
-            sleep(4);
-        }
-        if(x==2){
-            gpioPWM(13, 10);
-            gpioPWM(19, 25);
-            sleep(5);
-            gpioPWM(13, 25);
-            gpioPWM(19, 10);
-            sleep(5);
-        }
-        gpioPWM(19, 0);
-        gpioPWM(13, 0);
-        cout<<"in\n";
-        cin >>x;
-
-    }
-
-    gpioTerminate();
-
-
-}
-*/
 
