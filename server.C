@@ -29,7 +29,7 @@ private:
 	string myResponse(string inputStr);
 	int power = 0;
 	int powerMotorEinzel= 0;
-	int maxpower = 200;
+	int maxpower = 250;
 	char lastCommand;
 
 };
