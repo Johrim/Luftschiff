@@ -64,7 +64,7 @@ int main(){
 	gpioPWM(19,0);
 
 	srv.run();
-	check.join();
+	check.detach();
 	gpioTerminate();
 
 }

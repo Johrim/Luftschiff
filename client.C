@@ -52,37 +52,37 @@ int main() {
 		i=getch();
 		switch (i){
 		case 119:
-			ch = string("w\0");
+			msg = string("w\0");
 			break;
 		case 97:
-			ch = string("a\0");
+			msg = string("a\0");
 			break;
 		case 100:
-			ch = string("d\0");
+			msg = string("d\0");
 			break;
 		case 115:
-			ch = string("s\0");
+			msg = string("s\0");
 			break;
 		case 56:
-			ch =string("hoch\0");
+			msg =string("hoch\0");
 			break;
 		case 53:
-			ch=string("runter\0");
+			msg=string("runter\0");
 			break;
 		case 32:
-			ch=string("stopp\0");
+			msg=string("stopp\0");
 			break;
 		case 27:
-			ch = string("BYEBYE\0");
+			msg = string("BYEBYE\0");
 			goOn = 0;
 			break;
 		default :
 			cout<<"\nUnknown Command!"<<endl;
 		}
 
-		printw("\nclient sends: %s",ch.c_str());
+		printw("\nclient sends: %s",msg.c_str());
 		//cout << "client sends:" << msg << endl;
-		c.sendData(msg = ch);
+		c.sendData(msg);
 		msg = c.receive(32);
 		printw("\ngot response: %s von 255",msg.c_str());
 		//cout << "got response:" << msg << endl;
