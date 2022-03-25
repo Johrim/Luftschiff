@@ -72,7 +72,7 @@ string MyServer::myResponse(string inputStr){
 			power=0;
 		}
 		if(power < maxpower){
-			power=power+5;
+			power=power+1;
 			gpioWrite(6, 1);
 			gpioWrite(26, 1);
 			gpioPWM(13, power);
@@ -84,7 +84,7 @@ string MyServer::myResponse(string inputStr){
 			lastCommand = 's';
 		}
 		if(power > 0){
-			power=power-5;
+			power=power-1;
 			gpioPWM(13, power);
 			gpioPWM(19, power);
 		}
@@ -97,7 +97,7 @@ string MyServer::myResponse(string inputStr){
 			gpioWrite(26, 1);
 		}
 		if(power < maxpower){
-			power=power+5;
+			power=power+1;
 			gpioPWM(13, power);
 			gpioPWM(19, power);
 		}
@@ -110,21 +110,21 @@ string MyServer::myResponse(string inputStr){
 			gpioWrite(26, 0);
 		}
 		if(power < maxpower){
-			power=power+5;
+			power=power+1;
 			gpioPWM(13, power);
 			gpioPWM(19, power);
 		}
 		return string("rechts");
 	}else if(inputStr.compare("hoch")==0){
 		if(powerMotorEinzel < maxpower){
-			powerMotorEinzel=powerMotorEinzel+5;
+			powerMotorEinzel=powerMotorEinzel+1;
 			gpioWrite(15, 1);
 			gpioPWM(18, powerMotorEinzel);
 		}
 		return string("hoch");
 	}else if(inputStr.compare("runter")==0){
 		if(powerMotorEinzel > 0){
-			powerMotorEinzel=powerMotorEinzel-5;
+			powerMotorEinzel=powerMotorEinzel-1;
 			gpioWrite(15, 0);
 			gpioPWM(18, powerMotorEinzel);
 		}
