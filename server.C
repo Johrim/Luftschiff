@@ -122,13 +122,14 @@ string MyServer::myResponse(string inputStr){
 	}else if(inputStr.compare("hoch")==0){
 		if(powerMotorEinzel < maxpower){
 			powerMotorEinzel=powerMotorEinzel+1;
-			gpioWrite(15, 1);
+			gpioWrite(15, 0);
 			gpioPWM(18, powerMotorEinzel);
 		}
 		return string("hoch");
 	}else if(inputStr.compare("runter")==0){
 		if(powerMotorEinzel > 0){
 			powerMotorEinzel=powerMotorEinzel-1;
+			gpioWrite(15, 0);
 			gpioPWM(18, powerMotorEinzel);
 		}
 		return string("runter");
