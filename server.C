@@ -94,7 +94,7 @@ string MyServer::myResponse(string inputStr){
 			lastCommand = 'a';
 			power=0;
 			gpioSetMode(6,PI_INPUT); 	//Richtung Motor 1
-			gpioWrite(6, 0);
+			//gpioWrite(6, 0);
 			gpioWrite(26, 1);
 
 		}
@@ -108,9 +108,10 @@ string MyServer::myResponse(string inputStr){
 		if(lastCommand !='d'){
 			lastCommand = 'd';
 			power=0;
-			gpioWrite(6, 1);
-			gpioWrite(26, 0);
 			gpioSetMode(26,PI_INPUT);
+			gpioWrite(6, 1);
+			//gpioWrite(26, 0);
+
 		}
 		if(power < maxpower){
 			power=power+1;
