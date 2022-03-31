@@ -53,13 +53,19 @@ int main() {
 			msg = string("s\0");
 			break;
 		case 56:
-			msg =string("hoch\0");
+			msg =string("hoch+\0");
 			break;
 		case 53:
+			msg=string("hoch-\0");
+			break;
+		case 50:
 			msg=string("runter\0");
 			break;
 		case 32:
 			msg=string("stopp\0");
+			break;
+		case 98:
+			msg=string("boost\0");
 			break;
 		case 42:
 			msg = string("BYEBYE\0");

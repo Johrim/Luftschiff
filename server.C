@@ -69,7 +69,7 @@ string MyServer::myResponse(string inputStr){
 	if(inputStr.compare("w")==0){
 		if(lastCommand !='w'){
 			lastCommand = 'w';
-			power=0;
+			power=10;
 		}
 		if(power < maxpower){
 			power=power+1;
@@ -92,7 +92,7 @@ string MyServer::myResponse(string inputStr){
 	}else if(inputStr.compare("a")==0){
 		if(lastCommand !='a'){
 			lastCommand = 'a';
-			power=0;
+			power=10;
 			gpioSetMode(6,PI_INPUT); 	//Richtung Motor 1
 			//gpioWrite(6, 0);
 			gpioWrite(26, 1);
@@ -107,7 +107,7 @@ string MyServer::myResponse(string inputStr){
 	}else if(inputStr.compare("d")==0){
 		if(lastCommand !='d'){
 			lastCommand = 'd';
-			power=0;
+			power=10;
 			gpioSetMode(26,PI_INPUT);
 			gpioWrite(6, 1);
 			//gpioWrite(26, 0);
@@ -119,19 +119,32 @@ string MyServer::myResponse(string inputStr){
 			gpioPWM(19, power);
 		}
 		return string("rechts");
-	}else if(inputStr.compare("hoch")==0){
+	}else if(inputStr.compare("hoch+")==0){
 		if(powerMotorEinzel < maxpower){
 			powerMotorEinzel=powerMotorEinzel+1;
 			gpioWrite(15, 0);
 			gpioPWM(18, powerMotorEinzel);
 		}
-		return string("hoch");
-	}else if(inputStr.compare("runter")==0){
+		return string("hoch+");
+	}else if(inputStr.compare("hoch-")==0){
 		if(powerMotorEinzel > 0){
 			powerMotorEinzel=powerMotorEinzel-1;
 			gpioWrite(15, 0);
 			gpioPWM(18, powerMotorEinzel);
 		}
+		return string("hoch-");
+	}else if(inputStr.compare("runter")==0){
+		if(powerMotorEinzel > 0){
+			gpioWrite(15, 1);
+		}
+		return string("runter");
+	}else if(inputStr.compare("boost")==0){
+		if(powerMotorEinzel > 0){
+			gpioWrite(15, 0);
+			gpioPWM(18, 255);
+			sleep(3);
+		}
+		return string("boost");
 		return string("runter");
 	}else if(inputStr.compare("stopp")==0){
 		power=0;
