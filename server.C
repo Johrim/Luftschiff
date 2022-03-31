@@ -143,6 +143,7 @@ string MyServer::myResponse(string inputStr){
 			gpioWrite(15, 0);
 			gpioPWM(18, 255);
 			sleep(3);
+			gpioPWM(18, 10);
 		}
 		return string("boost");
 		return string("runter");
