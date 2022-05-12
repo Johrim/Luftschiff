@@ -131,5 +131,4 @@ string MyServer::myResponse(string inputStr){
 	gpioPWM(13, power);
 	gpioPWM(19, power);
 	return string("unknown command");
-
 }

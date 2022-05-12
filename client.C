@@ -80,7 +80,6 @@ int main() {
 		msg = c.receive(32);
 		printw("\ngot response: %s",msg.c_str());
 		//cout << "got response:" << msg << endl;
-
 	}
 	endwin();
 	sleep(2);
