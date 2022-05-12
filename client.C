@@ -64,6 +64,12 @@ int main() {
 			msg = string("BYEBYE\0");
 			goOn = 0;
 			break;
+		case 105:							//i
+			msg=string("powerup\0");
+			break;
+		case 107:
+			msg=string("powerdown\0");
+			break;
 		default :
 			cout<<"\nUnknown Command!"<<endl;
 		}

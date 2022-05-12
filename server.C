@@ -69,55 +69,31 @@ string MyServer::myResponse(string inputStr){
 	if(inputStr.compare("w")==0){
 		if(lastCommand !='w'){
 			lastCommand = 'w';
-			power=0;
-		}
-		if(power < maxpower){
-			power=power+1;
 			gpioWrite(6, 1);
 			gpioWrite(26, 1);
-			gpioPWM(13, power);
-			gpioPWM(19, power);
 		}
+		gpioPWM(13, power);
+		gpioPWM(19, power);
+
 		return string("vorwärts");
-	}else if(inputStr.compare("s")==0){
-		if(lastCommand !='s'){
-			lastCommand = 's';
-		}
-		if(power > 0){
-			power=power-1;
-			gpioPWM(13, power);
-			gpioPWM(19, power);
-		}
-		return string("bremsen");
 	}else if(inputStr.compare("a")==0){
 		if(lastCommand !='a'){
 			lastCommand = 'a';
-			power=0;
-			gpioSetMode(6,PI_INPUT); 	//Richtung Motor 1
-			//gpioWrite(6, 0);
+			gpioWrite(6, 0);
 			gpioWrite(26, 1);
+		}
+		gpioPWM(13, power);
+		gpioPWM(19, power);
 
-		}
-		if(power < maxpower){
-			power=power+1;
-			gpioPWM(13, power);
-			gpioPWM(19, power);
-		}
 		return string("links");
 	}else if(inputStr.compare("d")==0){
 		if(lastCommand !='d'){
 			lastCommand = 'd';
-			power=0;
-			gpioSetMode(26,PI_INPUT);
 			gpioWrite(6, 1);
-			//gpioWrite(26, 0);
-
+			gpioWrite(26, 0);
 		}
-		if(power < maxpower){
-			power=power+1;
-			gpioPWM(13, power);
-			gpioPWM(19, power);
-		}
+		gpioPWM(13, power);
+		gpioPWM(19, power);
 		return string("rechts");
 	}else if(inputStr.compare("hoch")==0){
 		if(powerMotorEinzel < maxpower){
@@ -129,10 +105,19 @@ string MyServer::myResponse(string inputStr){
 	}else if(inputStr.compare("runter")==0){
 		if(powerMotorEinzel > 0){
 			powerMotorEinzel=powerMotorEinzel-1;
-			gpioWrite(15, 0);
 			gpioPWM(18, powerMotorEinzel);
 		}
 		return string("runter");
+	}else if(inputStr.compare("powerup")==0){
+		if(power < maxpower){
+			power++;
+		}
+		return string("powerup");
+	}else if(inputStr.compare("powerdown")==0){
+		if(power > 0){
+			power--;
+		}
+		return string("powerup");
 	}else if(inputStr.compare("stopp")==0){
 		power=0;
 		powerMotorEinzel=0;
@@ -142,6 +127,9 @@ string MyServer::myResponse(string inputStr){
 
 		return string("stopp");
 	}
+	power=0;
+	gpioPWM(13, power);
+	gpioPWM(19, power);
 	return string("unknown command");
 
 }
