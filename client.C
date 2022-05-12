@@ -10,7 +10,6 @@
 #include <unistd.h> //contains various constants
 #include <stdlib.h>
 #include <ncurses.h>
-
 #include "SIMPLESOCKET.H"
 
 using namespace std;
@@ -22,8 +21,8 @@ int main() {
 	string msg,ch;
 
 
-	//connect to host
 
+	//connect to host
 	while(true){
 		cout <<"IP-Adresse:"<<endl;
 		cin >> host;
@@ -37,6 +36,7 @@ int main() {
 	bool goOn=1;
 	noecho();
 	while(goOn){ // send and receive data
+		msg = string("hello\0");
 		i=getch();
 		switch (i){
 		case 119:
@@ -72,6 +72,7 @@ int main() {
 			break;
 		default :
 			cout<<"\nUnknown Command!"<<endl;
+			break;
 		}
 
 		printw("\nclient sends: %s",msg.c_str());

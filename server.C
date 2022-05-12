@@ -126,9 +126,11 @@ string MyServer::myResponse(string inputStr){
 		gpioPWM(18, powerMotorEinzel);
 
 		return string("stopp");
+	}else if(inputStr.compare("hello")==0){
+		power=0;
+		gpioPWM(13, power);
+		gpioPWM(19, power);
 	}
-	power=0;
-	gpioPWM(13, power);
-	gpioPWM(19, power);
+
 	return string("unknown command");
 }
