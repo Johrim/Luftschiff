@@ -24,7 +24,6 @@ int main() {
 
 	//connect to host
 
-
 	while(true){
 		cout <<"IP-Adresse:"<<endl;
 		cin >> host;
