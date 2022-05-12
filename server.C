@@ -145,4 +145,3 @@ string MyServer::myResponse(string inputStr){
 	return string("unknown command");
 
 }
-
