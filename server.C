@@ -31,6 +31,7 @@ private:
 	string myResponse(string inputStr);
 	int power = 0;
 	int powerMotorEinzel= 0;
+	int basepower=50;
 	int maxpower = 250;
 	char lastCommand;
 	int con=0;
@@ -85,14 +86,18 @@ string MyServer::myResponse(string inputStr){
 	if(inputStr.compare("w")==0){
 		if(lastCommand !='w'){
 			lastCommand = 'w';
-			power=0;
-		}
-		if(power < maxpower){
-			power=power+5;
 			gpioWrite(6, 1);
 			gpioWrite(26, 1);
+		}
+		if(power < basepower){
+			power= 50;	
 			gpioPWM(13, power);
-			gpioPWM(19, power);
+			gpioPWM(19, power);	
+		}
+		if (power > baspower && power < maxpower) {
+			power = power + 5;
+			gpioPWM(13, power);
+			gpioPWM(19, power);	
 		}
 		pow=to_string(power);
 		response="vorwärts:";
