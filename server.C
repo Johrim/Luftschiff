@@ -64,16 +64,17 @@ string MyServer::myResponse(string inputStr){
 
 
 	if(inputStr.compare("w")==0){
-		if(lastCommand !='w'){
-			lastCommand = 'w';
+		if((lastCommand !='w')  ){
+			lastCommand = 'w'; 
 			gpioWrite(6, 1);
 			gpioWrite(26, 1);
+			if (power < basepower){
+				power = 50;	
+				gpioPWM(13, power);
+				gpioPWM(19, power);
+			}	
 		}
-		else if(power < basepower){
-			power = 50;	
-			gpioPWM(13, power);
-			gpioPWM(19, power);	
-		}
+		
 		else if (power >= basepower && power < maxpower) {
 			power = power + 5;
 			gpioPWM(13, power);
