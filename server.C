@@ -123,7 +123,7 @@ string MyServer::myResponse(string inputStr){
 			gpioSetMode(26,PI_INPUT);
 			gpioWrite(6, 1);
 			//gpioWrite(26, 0);
-			gpioPWM(13, power);
+			gpioPWM(13, 0);
 			gpioPWM(19, power);
 
 		}
