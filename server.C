@@ -101,7 +101,7 @@ string MyServer::myResponse(string inputStr){
 		if(lastCommand !='a'){
 			lastCommand = 'a';
 			power = basepower;
-			gpioSetMode(6,PI_INPUT); 	//Richtung Motor 1
+			gpioWrite(6, 1); 	//Richtung Motor 1
 			//gpioWrite(6, 0);
 			gpioWrite(26, 1);		
 			gpioPWM(13, power);
@@ -120,7 +120,7 @@ string MyServer::myResponse(string inputStr){
 		if(lastCommand !='d'){
 			lastCommand = 'd';
 			power= basepower;
-			gpioSetMode(26,PI_INPUT);
+			gpioWrite(26, 1);
 			gpioWrite(6, 1);
 			//gpioWrite(26, 0);
 			gpioPWM(13, 0);
