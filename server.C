@@ -136,7 +136,7 @@ string MyServer::myResponse(string inputStr){
 			powerMotorEinzel=powerMotorEinzel+1;
 			gpioWrite(15, 0);
 			gpioPWM(18, powerMotorEinzel);
-			lastCommand = 'hoch';
+			lastCommand = 'h';
 		}
 		return string("hoch");
 	}
@@ -146,7 +146,7 @@ string MyServer::myResponse(string inputStr){
 			powerMotorEinzel=powerMotorEinzel-1;
 			gpioWrite(15, 0);
 			gpioPWM(18, powerMotorEinzel);
-			lastCommand = 'runter';
+			lastCommand = 'r';
 		}
 		return string("runter");
 	}
@@ -157,7 +157,7 @@ string MyServer::myResponse(string inputStr){
 		gpioPWM(13, power);
 		gpioPWM(19, power);
 		gpioPWM(18, powerMotorEinzel);
-		lastCommand = 'stopp';
+		lastCommand = 't';
 		return string("stopp");
 	}
 	return string("unkwnown");
