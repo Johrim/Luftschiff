@@ -62,14 +62,6 @@ int main(){
 
 string MyServer::myResponse(string inputStr){
 
-	if(inputStr.compare("run")==0){
-		con=1;
-		return string("run");
-	}
-	if(inputStr.compare("connected")==0){
-		checkcon=true;
-		return string("conOk");
-	}
 
 	if(inputStr.compare("w")==0){
 		if(lastCommand !='w'){
