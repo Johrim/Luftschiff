@@ -149,6 +149,6 @@ string MyServer::myResponse(string inputStr){
 
 		return string("stopp");
 	}
-	return;
+	return NULL;
 
 }
