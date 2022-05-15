@@ -94,7 +94,7 @@ string MyServer::myResponse(string inputStr){
 			gpioPWM(13, power);
 			gpioPWM(19, power);	
 		}
-		if (power > baspower && power < maxpower) {
+		if (power > basepower && power < maxpower) {
 			power = power + 5;
 			gpioPWM(13, power);
 			gpioPWM(19, power);	
