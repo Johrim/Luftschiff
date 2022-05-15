@@ -1,4 +1,4 @@
-/*
+*
  * server.C
  *
  *  Created on: 11.09.2019
@@ -19,7 +19,6 @@
 #include "SIMPLESOCKET.H"
 #include <pigpio.h>
 #include <iostream>
-#include <thread>
 
 class MyServer : public TCPserver{
 public:
@@ -39,6 +38,8 @@ private:
 
 };
 using namespace std;
+using namespace std;
+
 int main(){
 	srand(time(nullptr));
 	MyServer srv(2022,25);
@@ -47,7 +48,6 @@ int main(){
 	if (gpioInitialise()<0){
 	        return 1;
 	    }
-	thread check(&MyServer::checkCon,&srv);
 
 	gpioSetMode(5,PI_OUTPUT); 	//Modus vom Dual Motor Driver
 	gpioSetMode(6,PI_OUTPUT); 	//Richtung Motor 1
@@ -65,14 +65,12 @@ int main(){
 	gpioPWM(19,0);
 
 	srv.run();
-	check.detach();
 	gpioTerminate();
 
 }
 
 
 string MyServer::myResponse(string inputStr){
-	string response,pow;
 
 	if(inputStr.compare("run")==0){
 		con=1;
