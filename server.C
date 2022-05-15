@@ -25,7 +25,7 @@ class MyServer : public TCPserver{
 public:
 	MyServer(int portNmb, int maxSizeData) : TCPserver(portNmb,maxSizeData){
 	};
-	void checkCon();
+
 
 private:
 	string myResponse(string inputStr);
