@@ -90,11 +90,11 @@ string MyServer::myResponse(string inputStr){
 			gpioWrite(26, 1);
 		}
 		if(power < basepower){
-			power= 50;	
+			power = 50;	
 			gpioPWM(13, power);
 			gpioPWM(19, power);	
 		}
-		if (power > basepower && power < maxpower) {
+		if (power >= basepower && power < maxpower) {
 			power = power + 5;
 			gpioPWM(13, power);
 			gpioPWM(19, power);	
