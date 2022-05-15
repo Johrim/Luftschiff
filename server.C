@@ -105,13 +105,13 @@ string MyServer::myResponse(string inputStr){
 			//gpioWrite(6, 0);
 			gpioWrite(26, 1);		
 			gpioPWM(13, power);
-			gpioPWM(19, power);
+			gpioPWM(19, 0);
 
 		}
 		else if (power >= basepower && power < maxpower) {
 					power = power + 5;
 					gpioPWM(13, power);
-					gpioPWM(19, power);	
+					
 		}
 		return string("links");
 	}
@@ -129,7 +129,7 @@ string MyServer::myResponse(string inputStr){
 		}
 		else if (power >= basepower && power < maxpower) {
 					power = power + 5;
-					gpioPWM(13, power);
+					
 					gpioPWM(19, power);
 		}
 		return string("rechts");
