@@ -65,7 +65,7 @@ int main() {
 			goOn = 0;
 			break;
 		default :
-			cout<<"\nUnknown Command!"<<endl;
+			break;
 		}
 
 		printw("\nclient sends: %s",msg.c_str());
