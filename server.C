@@ -1,9 +1,3 @@
-*
- * server.C
- *
- *  Created on: 11.09.2019
- *      Author: aml
- */
 #include <cstdio> // standard input and output library
 #include <cstdlib> // this includes functions regarding memory allocation
 #include <cstring> // contains string functions
@@ -25,21 +19,15 @@ public:
 	MyServer(int portNmb, int maxSizeData) : TCPserver(portNmb,maxSizeData){
 	};
 
-
 private:
 	string myResponse(string inputStr);
 	int power = 0;
 	int powerMotorEinzel= 0;
-	int basepower=50;
 	int maxpower = 250;
 	char lastCommand;
-	int con=0;
-	bool checkcon = false;
 
 };
 using namespace std;
-using namespace std;
-
 int main(){
 	srand(time(nullptr));
 	MyServer srv(2022,25);
@@ -68,6 +56,7 @@ int main(){
 	gpioTerminate();
 
 }
+
 
 
 string MyServer::myResponse(string inputStr){
