@@ -86,7 +86,10 @@ int main() {
 			}
 		}
 		msg = c.receive(32);
-		cout << "got response:" << msg << endl;
+		if(msg.compare("unknown")!= 0){
+			cout<< msg << endl;
+		}
+
 	}
 	SDL_DestroyWindow(window);
 	SDL_Quit();
