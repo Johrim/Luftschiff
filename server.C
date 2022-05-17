@@ -65,26 +65,15 @@ string MyServer::myResponse(string inputStr){
 	if(inputStr.compare("w")==0){
 		if((lastCommand !='w')  ){
 			lastCommand = 'w';
-			gpioWrite(6, 1);
+			gpioWrite(6, 0);
 			gpioWrite(26, 1);
-			if (power < basepower){
-				power = 50;
-				gpioPWM(13, power);
-				gpioPWM(19, power);
-			}
 		}
-
-		else if (power >= basepower && power < maxpower) {
-			power = power + 5;
 			gpioPWM(13, power);
 			gpioPWM(19, power);
-		}
 		return string("vorwärts: " + to_string(power) + "von " + to_string(maxpower));
 
 
-	}
-
-	else if(inputStr.compare("s")==0){
+	}else if(inputStr.compare("s")==0){
 		if(lastCommand !='s'){
 			lastCommand = 's';
 		}
@@ -99,19 +88,12 @@ string MyServer::myResponse(string inputStr){
 	else if(inputStr.compare("a")==0){
 		if(lastCommand !='a'){
 			lastCommand = 'a';
-			power = basepower;
-			gpioWrite(6, 1); 	//Richtung Motor 1
+			gpioWrite(6, 0); 	//Richtung Motor 1
 			//gpioWrite(6, 0);
 			gpioWrite(26, 1);
+		}
 			gpioPWM(13, power);
 			gpioPWM(19, 0);
-
-		}
-		else if (power >= basepower && power < maxpower) {
-					power = power + 5;
-					gpioPWM(13, power);
-
-		}
 		return string("links");
 	}
 
@@ -120,17 +102,12 @@ string MyServer::myResponse(string inputStr){
 			lastCommand = 'd';
 			power= basepower;
 			gpioWrite(26, 1);
-			gpioWrite(6, 1);
+			gpioWrite(6, 0);
 			//gpioWrite(26, 0);
-			gpioPWM(13, 0);
-			gpioPWM(19, power);
-
 		}
-		else if (power >= basepower && power < maxpower) {
-					power = power + 5;
+		gpioPWM(13, 0);
+		gpioPWM(19, power);
 
-					gpioPWM(19, power);
-		}
 		return string("rechts");
 	}
 
@@ -163,6 +140,26 @@ string MyServer::myResponse(string inputStr){
 		lastCommand = 't';
 		return string("stopp");
 	}
+	else if(inputStr.compare("powerup")==0){
+		if(power == 0){
+			power = 75;
+		}
+		if(power >= basepower && power < maxpower){
+			power = power +5;
+		}
+		return string("power" + to_string(power));
+	}
+	else if(inputStr.compare("powerdown")==0){
+		if(power > basepower){
+			power = power -5;
+		}
+		if(power == basepower){
+			power = 0;
+		}
+		return string("power" + to_string(power));
+	}
+	gpioPWM(13, 0);
+	gpioPWM(19, 0);
 	return string("unkwnown");
 
 }
