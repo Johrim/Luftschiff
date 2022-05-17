@@ -22,7 +22,7 @@ public:
 private:
 	string myResponse(string inputStr);
 	int power = 0;
-	int basepower = 50;
+	int basepower = 75;
 	int powerMotorEinzel= 0;
 	int maxpower = 250;
 	char lastCommand;
@@ -80,7 +80,7 @@ string MyServer::myResponse(string inputStr){
 			gpioPWM(13, power);
 			gpioPWM(19, power);	
 		}
-		return string("vorwärts");
+		return string("vorwï¿½rts");
 		
 		
 	}
