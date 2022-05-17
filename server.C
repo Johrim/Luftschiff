@@ -69,7 +69,7 @@ string MyServer::myResponse(string inputStr){
 			gpioWrite(6, 1);
 			gpioWrite(26, 1);
 			if (power < basepower){
-				power = 50;	
+				power = basepower;	
 				gpioPWM(13, power);
 				gpioPWM(19, power);
 			}	
