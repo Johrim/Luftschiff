@@ -28,7 +28,7 @@ server:	server.o
 	
 
 client:	client.o
-	$(CC) -o client client.o SIMPLESOCKET.o -L/usr/lib/x86_64-linux-gnu -lncurses -ldl -lstdc++  -std=c++11
+	$(CC) -o client client.o SIMPLESOCKET.o -L/usr/lib/x86_64-linux-gnu -lncurses -ldl -lSDL2 -lstdc++  -std=c++11
 
 clean:
 	-rm -r -f   $(DEMOTARGET) *.o DOXYGENDOC  *.txt

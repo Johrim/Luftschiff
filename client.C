@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include <ncurses.h>
 #include "SIMPLESOCKET.H"
+#include <SDL2/SDL.h>
 
 using namespace std;
 
@@ -20,7 +21,11 @@ int main() {
 	string host = "";
 	string msg,ch;
 
+	SDL_Init(SDL_INIT_EVERYTHING);
+	SDL_Event event;
+	SDL_Window* window = nullptr;
 
+	window = SDL_CreateWindow("Test",0,0,640,480,SDL_WINDOW_SHOWN);
 
 	//connect to host
 	while(true){
@@ -31,12 +36,70 @@ int main() {
 		}
 	}
 
+	bool run = 1;
+	while(run){
+		c.sendData("run\0");
+		SDL_Event event;
+		SDL_Delay(60);
+		while(SDL_PollEvent(&event)){
+			if(event.type == SDL_KEYDOWN){
+				/*
+				cout <<"Key gedrückt!"<<endl;
+				c.sendData("Key gedrückt!\0");
+				*/
+				if(event.key.keysym.sym == SDLK_0){
+					cout <<"0 gedrückt!"<<endl;
+					run = false;
+				}
+				switch(event.key.keysym.sym){
+				case SDLK_w:
+					c.sendData("w\0");
+					break;
+				case SDLK_a:
+					c.sendData("a\0");
+					break;
+				case SDLK_d:
+					c.sendData("d\0");
+					break;
+				case SDLK_UP:
+					c.sendData("hoch\0");
+					break;
+				case SDLK_DOWN:
+					c.sendData("runter\0");
+					break;
+				case SDLK_u:
+					c.sendData("powerup\0");
+					break;
+				case SDLK_j:
+					c.sendData("powerdown\0");
+					break;
+				case SDLK_SPACE:
+					c.sendData("stopp\0");
+					break;
+				case SDLK_ESCAPE:
+					c.sendData("BYEBYE\0");
+					run =false;
+					break;
+				default:
+					cout<<"Unknown Command!\n";
+				}
+			}
+		}
+		msg = c.receive(32);
+		cout << "got response:" << msg << endl;
+	}
+	SDL_DestroyWindow(window);
+	SDL_Quit();
+
+	/*
 	initscr();
 	int i=0;
 	bool goOn=1;
 	noecho();
 	while(goOn){ // send and receive data
 		msg = string("hello\0");
+		printw("\nclient sends: %s",msg.c_str());
+		c.sendData(msg);
 		i=getch();
 		switch (i){
 		case 119:
@@ -84,7 +147,8 @@ int main() {
 	}
 	endwin();
 	sleep(2);
-
+	*/
+	 return 0;
 }
 
 

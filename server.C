@@ -1,9 +1,3 @@
-/*
- * server.C
- *
- *  Created on: 11.09.2019
- *      Author: aml
- */
 #include <cstdio> // standard input and output library
 #include <cstdlib> // this includes functions regarding memory allocation
 #include <cstring> // contains string functions
@@ -28,6 +22,7 @@ public:
 private:
 	string myResponse(string inputStr);
 	int power = 0;
+	int basepower = 50;
 	int powerMotorEinzel= 0;
 	int maxpower = 250;
 	char lastCommand;
@@ -64,73 +59,110 @@ int main(){
 }
 
 
+
 string MyServer::myResponse(string inputStr){
 
 	if(inputStr.compare("w")==0){
-		if(lastCommand !='w'){
+		if((lastCommand !='w')  ){
 			lastCommand = 'w';
 			gpioWrite(6, 1);
 			gpioWrite(26, 1);
+			if (power < basepower){
+				power = 50;
+				gpioPWM(13, power);
+				gpioPWM(19, power);
+			}
 		}
-		gpioPWM(13, power);
-		gpioPWM(19, power);
 
-		return string("vorwärts");
-	}else if(inputStr.compare("a")==0){
+		else if (power >= basepower && power < maxpower) {
+			power = power + 5;
+			gpioPWM(13, power);
+			gpioPWM(19, power);
+		}
+		return string("vorwärts: " + to_string(power) + "von " + to_string(maxpower));
+
+
+	}
+
+	else if(inputStr.compare("s")==0){
+		if(lastCommand !='s'){
+			lastCommand = 's';
+		}
+		if(power > 0){
+			power=power-5;
+			gpioPWM(13, power);
+			gpioPWM(19, power);
+		}
+		return string("bremsen");
+	}
+
+	else if(inputStr.compare("a")==0){
 		if(lastCommand !='a'){
 			lastCommand = 'a';
-			gpioWrite(6, 0);
+			power = basepower;
+			gpioWrite(6, 1); 	//Richtung Motor 1
+			//gpioWrite(6, 0);
 			gpioWrite(26, 1);
-		}
-		gpioPWM(13, power);
-		gpioPWM(19, power);
+			gpioPWM(13, power);
+			gpioPWM(19, 0);
 
+		}
+		else if (power >= basepower && power < maxpower) {
+					power = power + 5;
+					gpioPWM(13, power);
+
+		}
 		return string("links");
-	}else if(inputStr.compare("d")==0){
+	}
+
+	else if(inputStr.compare("d")==0){
 		if(lastCommand !='d'){
 			lastCommand = 'd';
+			power= basepower;
+			gpioWrite(26, 1);
 			gpioWrite(6, 1);
-			gpioWrite(26, 0);
+			//gpioWrite(26, 0);
+			gpioPWM(13, 0);
+			gpioPWM(19, power);
+
 		}
-		gpioPWM(13, power);
-		gpioPWM(19, power);
+		else if (power >= basepower && power < maxpower) {
+					power = power + 5;
+
+					gpioPWM(19, power);
+		}
 		return string("rechts");
-	}else if(inputStr.compare("hoch")==0){
+	}
+
+	else if(inputStr.compare("hoch")==0){
 		if(powerMotorEinzel < maxpower){
 			powerMotorEinzel=powerMotorEinzel+1;
 			gpioWrite(15, 0);
 			gpioPWM(18, powerMotorEinzel);
+
 		}
 		return string("hoch");
-	}else if(inputStr.compare("runter")==0){
+	}
+
+	else if(inputStr.compare("runter")==0){
 		if(powerMotorEinzel > 0){
 			powerMotorEinzel=powerMotorEinzel-1;
+			gpioWrite(15, 0);
 			gpioPWM(18, powerMotorEinzel);
+
 		}
 		return string("runter");
-	}else if(inputStr.compare("powerup")==0){
-		if(power < maxpower){
-			power++;
-		}
-		return string("powerup");
-	}else if(inputStr.compare("powerdown")==0){
-		if(power > 0){
-			power--;
-		}
-		return string("powerup");
-	}else if(inputStr.compare("stopp")==0){
+	}
+
+	else if(inputStr.compare("stopp")==0){
 		power=0;
 		powerMotorEinzel=0;
 		gpioPWM(13, power);
 		gpioPWM(19, power);
 		gpioPWM(18, powerMotorEinzel);
-
+		lastCommand = 't';
 		return string("stopp");
-	}else if(inputStr.compare("hello")==0){
-		power=0;
-		gpioPWM(13, power);
-		gpioPWM(19, power);
 	}
+	return string("unkwnown");
 
-	return string("unknown command");
 }
