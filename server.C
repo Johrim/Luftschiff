@@ -138,7 +138,7 @@ string MyServer::myResponse(string inputStr){
 	else if(inputStr.compare("hoch")==0){
 		if(powerMotorEinzel < maxpower){
 			powerMotorEinzel=powerMotorEinzel+1;
-			gpioWrite(15, 0);
+			gpioWrite(15, 1);
 			gpioPWM(18, powerMotorEinzel);
 			
 		}
@@ -148,7 +148,7 @@ string MyServer::myResponse(string inputStr){
 	else if(inputStr.compare("runter")==0){
 		if(powerMotorEinzel > 0){
 			powerMotorEinzel=powerMotorEinzel-1;
-			gpioWrite(15, 0);
+			gpioWrite(15, 1);
 			gpioPWM(18, powerMotorEinzel);
 			
 		}
