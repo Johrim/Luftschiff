@@ -66,7 +66,7 @@ string MyServer::myResponse(string inputStr){
 	if(inputStr.compare("w")==0){
 		if((lastCommand !='w')  ){
 			lastCommand = 'w'; 
-			gpioWrite(6, 1);
+			gpioWrite(6, 0);
 			gpioWrite(26, 1);
 			if (power < basepower){
 				power = basepower;	
@@ -101,7 +101,7 @@ string MyServer::myResponse(string inputStr){
 		if(lastCommand !='a'){
 			lastCommand = 'a';
 			power = basepower;
-			gpioWrite(6, 1); 	//Richtung Motor 1
+			gpioWrite(6, 0); 	//Richtung Motor 1
 			//gpioWrite(6, 0);
 			gpioWrite(26, 1);		
 			gpioPWM(13, power);
@@ -121,7 +121,7 @@ string MyServer::myResponse(string inputStr){
 			lastCommand = 'd';
 			power= basepower;
 			gpioWrite(26, 1);
-			gpioWrite(6, 1);
+			gpioWrite(6, 0);
 			//gpioWrite(26, 0);
 			gpioPWM(13, 0);
 			gpioPWM(19, power);
