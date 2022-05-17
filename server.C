@@ -70,7 +70,7 @@ string MyServer::myResponse(string inputStr){
 		}
 			gpioPWM(13, power);
 			gpioPWM(19, power);
-		return string("vorwärts: " + to_string(power) + "von " + to_string(maxpower));
+		return string("vorwärts: " + to_string(power) + " von " + to_string(maxpower));
 
 
 	}else if(inputStr.compare("s")==0){
@@ -160,6 +160,6 @@ string MyServer::myResponse(string inputStr){
 	}
 	gpioPWM(13, 0);
 	gpioPWM(19, 0);
-	return string("unkwnown");
+	return string("unknown");
 
 }
