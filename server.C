@@ -66,14 +66,15 @@ string MyServer::myResponse(string inputStr){
 
 	if(inputStr.compare("w")==0){
 		if((lastCommand !='w')  ){
-			lastCommand = 'w'; 
+			 
 			gpioWrite(6, 1);
 			gpioWrite(26, 0);
 			if (power == 0 || lastCommand == 'a' || lastCommand == 'd'){
 				power = basepower;	
 				gpioPWM(13, power);
 				gpioPWM(19, power);
-			}	
+			}
+			
 		}
 		
 		else if (power >= basepower && power < maxpower) {
@@ -81,6 +82,7 @@ string MyServer::myResponse(string inputStr){
 			gpioPWM(13, power);
 			gpioPWM(19, power);	
 		}
+		lastCommand = 'w';
 		return string("vorwaerts");
 		
 		
