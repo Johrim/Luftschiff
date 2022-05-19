@@ -23,8 +23,8 @@ private:
 	string myResponse(string inputStr);
 	int power = 0;
 	int basepower = 50;
-	int turnpower = 180;
-	int powerMotorEinzel = 80;
+	int turnpower = 150;
+	int powerMotorEinzel = 0;
 	int maxpower = 250;
 	char lastCommand;
 
@@ -69,7 +69,7 @@ string MyServer::myResponse(string inputStr){
 			lastCommand = 'w'; 
 			gpioWrite(6, 1);
 			gpioWrite(26, 0);
-			if (power < basepower){
+			if (power == 0){
 				power = basepower;	
 				gpioPWM(13, power);
 				gpioPWM(19, power);
@@ -137,7 +137,10 @@ string MyServer::myResponse(string inputStr){
 	}
 	
 	else if(inputStr.compare("hoch")==0){
-		if(powerMotorEinzel < maxpower){
+		if(powerMotorEinzel < maxpower){ 
+			if (powerMotorEinzel == 0){
+				powerMotorEinzel = 50;
+			}
 			powerMotorEinzel=powerMotorEinzel+1;
 			gpioWrite(15, 1);
 			gpioPWM(18, powerMotorEinzel);
