@@ -69,7 +69,7 @@ string MyServer::myResponse(string inputStr){
 			lastCommand = 'w'; 
 			gpioWrite(6, 1);
 			gpioWrite(26, 0);
-			if (power == 0){
+			if (power == 0 || lastCommand == 'a' || lastCommand == 'd'){
 				power = basepower;	
 				gpioPWM(13, power);
 				gpioPWM(19, power);
