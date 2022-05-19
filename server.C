@@ -24,7 +24,7 @@ private:
 	int power = 0;
 	int basepower = 50;
 	int turnpower = 180;
-	int powerMotorEinzel= 80;
+	int powerMotorEinzel = 80;
 	int maxpower = 250;
 	char lastCommand;
 
@@ -67,8 +67,8 @@ string MyServer::myResponse(string inputStr){
 	if(inputStr.compare("w")==0){
 		if((lastCommand !='w')  ){
 			lastCommand = 'w'; 
-			gpioWrite(6, 0);
-			gpioWrite(26, 1);
+			gpioWrite(6, 1);
+			gpioWrite(26, 0);
 			if (power < basepower){
 				power = basepower;	
 				gpioPWM(13, power);
@@ -102,16 +102,16 @@ string MyServer::myResponse(string inputStr){
 		if(lastCommand !='a'){
 			lastCommand = 'a';
 			power = turnpower;
-			gpioWrite(6, 0); 	//Richtung Motor 1
+			gpioWrite(6, 1); 	//Richtung Motor 1
 			//gpioWrite(6, 0);
-			gpioWrite(26, 1);		
-			gpioPWM(13, power);
-			gpioPWM(19, 0);
+			gpioWrite(26, 0);		
+			gpioPWM(13, 0);
+			gpioPWM(19, power);
 
 		}
 		else if (power >= turnpower && power < maxpower) {
 					power = power + 5;
-					gpioPWM(13, power);
+					gpioPWM(19, power);
 					
 		}
 		return string("links");
@@ -121,17 +121,17 @@ string MyServer::myResponse(string inputStr){
 		if(lastCommand !='d'){
 			lastCommand = 'd';
 			power= turnpower;
-			gpioWrite(26, 1);
-			gpioWrite(6, 0);
+			gpioWrite(26, 0);
+			gpioWrite(6, 1);
 			//gpioWrite(26, 0);
-			gpioPWM(13, 0);
-			gpioPWM(19, power);
+			gpioPWM(13, power);
+			gpioPWM(19, 0);
 
 		}
 		else if (power >= turnpower && power < maxpower) {
 					power = power + 5;
 					
-					gpioPWM(19, power);
+					gpioPWM(13, power);
 		}
 		return string("rechts");
 	}
