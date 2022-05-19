@@ -22,8 +22,9 @@ public:
 private:
 	string myResponse(string inputStr);
 	int power = 0;
-	int basepower = 75;
-	int powerMotorEinzel= 0;
+	int basepower = 50;
+	int turnpower = 180;
+	int powerMotorEinzel= 80;
 	int maxpower = 250;
 	char lastCommand;
 
@@ -80,7 +81,7 @@ string MyServer::myResponse(string inputStr){
 			gpioPWM(13, power);
 			gpioPWM(19, power);	
 		}
-		return string("vorw�rts");
+		return string("vorwaerts");
 		
 		
 	}
@@ -100,7 +101,7 @@ string MyServer::myResponse(string inputStr){
 	else if(inputStr.compare("a")==0){
 		if(lastCommand !='a'){
 			lastCommand = 'a';
-			power = basepower;
+			power = turnpower;
 			gpioWrite(6, 0); 	//Richtung Motor 1
 			//gpioWrite(6, 0);
 			gpioWrite(26, 1);		
@@ -108,7 +109,7 @@ string MyServer::myResponse(string inputStr){
 			gpioPWM(19, 0);
 
 		}
-		else if (power >= basepower && power < maxpower) {
+		else if (power >= turnpower && power < maxpower) {
 					power = power + 5;
 					gpioPWM(13, power);
 					
@@ -119,7 +120,7 @@ string MyServer::myResponse(string inputStr){
 	else if(inputStr.compare("d")==0){
 		if(lastCommand !='d'){
 			lastCommand = 'd';
-			power= basepower;
+			power= turnpower;
 			gpioWrite(26, 1);
 			gpioWrite(6, 0);
 			//gpioWrite(26, 0);
@@ -127,7 +128,7 @@ string MyServer::myResponse(string inputStr){
 			gpioPWM(19, power);
 
 		}
-		else if (power >= basepower && power < maxpower) {
+		else if (power >= turnpower && power < maxpower) {
 					power = power + 5;
 					
 					gpioPWM(19, power);
@@ -153,6 +154,14 @@ string MyServer::myResponse(string inputStr){
 			
 		}
 		return string("runter");
+	}
+	
+	else if(inputStr.compare("hstopp")==0){
+		power=0;
+		gpioPWM(13, power);
+		gpioPWM(19, power);
+		lastCommand = 'f';
+		return string("stopp");
 	}
 	
 	else if(inputStr.compare("stopp")==0){
