@@ -64,7 +64,7 @@ int main() {
 			msg = string("BYEBYE\0");
 			goOn = 0;
 			break;
-		case 32:
+		case 109:
 			msg = string("hstopp\0");
 			goOn = 0;
 			break;
