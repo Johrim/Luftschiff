@@ -66,7 +66,7 @@ int main() {
 			break;
 		case 109:
 			msg = string("hstopp\0");
-			goOn = 0;
+		
 			break;
 		default :
 			break;
